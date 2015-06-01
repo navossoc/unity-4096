@@ -24,12 +24,6 @@ public class TileManager : MonoBehaviour
         tilesParentPadding = new RectOffset(8, 8, 8, 8);
         tileMargin = new RectOffset(4, 4, 4, 4);
 
-        // HACK: Clear all
-        foreach (Transform child in transform)
-        {
-            DestroyObject(child.gameObject);
-        }
-
         // Allocate memory
         tileObjects = new Tile[TilesPerRow, TilesPerRow];
 
