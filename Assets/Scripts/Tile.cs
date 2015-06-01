@@ -21,7 +21,6 @@ public class Tile : MonoBehaviour
     };
 
     private int exponent;
-
     private Image tileImage;
     private Text tileText;
 
@@ -80,7 +79,7 @@ public class Tile : MonoBehaviour
             return false;
         }
 
-        // Return true if the fields match:
+        // Return true if the value match
         return lhs.Value == rhs.Value;
     }
 
@@ -97,13 +96,53 @@ public class Tile : MonoBehaviour
             return false;
         }
 
-        // Return true if the fields match:
+        // Return true if the value match
         return tile.Value == number;
     }
 
     public static bool operator !=(Tile tile, int number)
     {
         return !(tile == number);
+    }
+
+    /*
+     * Override
+     */
+
+    public override bool Equals(object obj)
+    {
+        // If parameter is null return false
+        if (obj == null)
+        {
+            return false;
+        }
+
+        // If parameter cannot be cast to Tile return false
+        Tile tile = obj as Tile;
+        if ((object)tile == null)
+        {
+            return false;
+        }
+
+        // Return true if the value match
+        return Value == tile.Value;
+    }
+
+    public bool Equals(Tile tile)
+    {
+        // If parameter is null return false
+        if ((object)tile == null)
+        {
+            return false;
+        }
+
+        // Return true if the value match
+        return Value == tile.Value;
+    }
+
+    public override int GetHashCode()
+    {
+        return Merged ? -Value : Value;
     }
 
     public override string ToString()
