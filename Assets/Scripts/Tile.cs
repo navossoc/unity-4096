@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
-    private int value = 0;
+    private int exponent = 0;
 
     private Image tileImage;
     private Text tileText;
@@ -33,38 +33,39 @@ public class Tile : MonoBehaviour
         tileText = GetComponentInChildren<Text>();
     }
 
-    /// <summary>
-    /// Get tile value
-    /// </summary>
-    /// <returns>return an int</returns>
-    public int GetValue()
+    /*
+     * Properties
+     */
+
+    public bool Merged { get; set; }
+
+    public int Value
     {
-        return value > 0 ? (1 << value) : 0;
-    }
-
-    /// <summary>
-    /// Set Tile value
-    /// </summary>
-    /// <param name="number">tile value (power of 2)</param>
-    public void SetValue(int number)
-    {
-        if (number < 0 || number > 12)
+        get
         {
-            Debug.LogErrorFormat("[{0}] Number {1} out of range", name, number);
-        }
-        number = Mathf.Clamp(number, 0, 12);
-
-        value = number;
-        if (value > 0)
-        {
-            tileText.text = (1 << value).ToString();
-        }
-        else
-        {
-            tileText.text = "";
+            return exponent;
         }
 
-        UpdateColor();
+        set
+        {
+            if (value < 0 || value > 12)
+            {
+                Debug.LogErrorFormat("[{0}] Number {1} out of range", name, value);
+            }
+            value = Mathf.Clamp(value, 0, 12);
+
+            if (value > 0)
+            {
+                tileText.text = (1 << value).ToString();
+            }
+            else
+            {
+                tileText.text = "";
+            }
+            exponent = value;
+
+            UpdateColor();
+        }
     }
 
     /// <summary>
@@ -73,9 +74,9 @@ public class Tile : MonoBehaviour
     private void UpdateColor()
     {
         // Background
-        tileImage.color = colorTable[value];
+        tileImage.color = colorTable[exponent];
         // Text color
-        if (value <= 2)
+        if (exponent <= 2)
         {
             tileText.color = new Color32(119, 110, 101, 255);
         }
@@ -87,6 +88,50 @@ public class Tile : MonoBehaviour
 
     public override string ToString()
     {
-        return string.Format("{0} = {1}", name, value);
+        return string.Format("{0} = 2^{1}", name, exponent);
+    }
+
+    /*
+     * Operators
+     */
+
+    public static bool operator ==(Tile lhs, Tile rhs)
+    {
+        // If both are null, or both are same instance, return true.
+        if (System.Object.ReferenceEquals(lhs, rhs))
+        {
+            return true;
+        }
+
+        // If one is null, but not both, return false.
+        if (((object)lhs == null) || ((object)rhs == null))
+        {
+            return false;
+        }
+
+        // Return true if the fields match:
+        return lhs.Value == rhs.Value;
+    }
+
+    public static bool operator !=(Tile lhs, Tile rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    public static bool operator ==(Tile tile, int number)
+    {
+        // If is null, return false.
+        if (((object)tile == null))
+        {
+            return false;
+        }
+
+        // Return true if the fields match:
+        return tile.Value == number;
+    }
+
+    public static bool operator !=(Tile tile, int number)
+    {
+        return !(tile == number);
     }
 }
