@@ -1,26 +1,24 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
     // Tile Prefab
-    public GameObject tilePrefab;
+    public GameObject TilePrefab;
 
     // Configuration
-    private RectOffset tilesParentPadding;
-    private const int tilesPerRow = 4;
-    private const int tileWidth = 96, tileHeight = 96;
-    private RectOffset tileMargin;
+    private const int TilesPerRow = 4;
+    private const int TileWidth = 96, TileHeight = 96;
+    private const int StartTiles = 2;
 
-    private const int startTiles = 2;
+    private RectOffset tilesParentPadding;
+    private RectOffset tileMargin;
 
     // Tile array reference
     private Tile[,] tileObjects;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         // left, right, top, bottom
         tilesParentPadding = new RectOffset(8, 8, 8, 8);
@@ -33,28 +31,28 @@ public class TileManager : MonoBehaviour
         }
 
         // Allocate memory
-        tileObjects = new Tile[tilesPerRow, tilesPerRow];
+        tileObjects = new Tile[TilesPerRow, TilesPerRow];
 
         int x = tilesParentPadding.left;
         int y = tilesParentPadding.top;
 
         // For each row
-        for (int i = 0; i < tilesPerRow; i++)
+        for (int i = 0; i < TilesPerRow; i++)
         {
             x = tilesParentPadding.left;
             y += tileMargin.top;
 
             // For each column
-            for (int j = 0; j < tilesPerRow; j++)
+            for (int j = 0; j < TilesPerRow; j++)
             {
                 // Create a new tile
-                GameObject tile = Instantiate<GameObject>(tilePrefab);
+                GameObject tile = Instantiate<GameObject>(TilePrefab);
                 tile.name = string.Format("Tile ({0}, {1})", i, j);
 
                 RectTransform tileRect = tile.GetComponent<RectTransform>();
 
                 // Resize tile
-                tileRect.sizeDelta = new Vector2(tileWidth, tileHeight);
+                tileRect.sizeDelta = new Vector2(TileWidth, TileHeight);
 
                 // Set parent
                 tileRect.SetParent(gameObject.transform, false);
@@ -64,14 +62,14 @@ public class TileManager : MonoBehaviour
                 // Move tile
                 tileRect.Translate(x, -y, 0);
 
-                x += tileWidth + tileMargin.right;
+                x += TileWidth + tileMargin.right;
 
                 // Assign tile
                 tileObjects[i, j] = tile.GetComponent<Tile>();
                 tileObjects[i, j].Value = 0;
             }
 
-            y += tileHeight + tileMargin.bottom;
+            y += TileHeight + tileMargin.bottom;
         }
 
         // Panel
@@ -83,21 +81,26 @@ public class TileManager : MonoBehaviour
         panelRect.sizeDelta = new Vector2(x, y);
 
         // Add random tiles
-        for (int i = 0; i < startTiles; i++)
+        for (int i = 0; i < StartTiles; i++)
         {
             AddRandomTile();
         }
     }
 
+    public void Move(int x, int y, bool relativeToSelf = true)
+    {
+        Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
+    }
+
     private void MoveUp()
     {
         Debug.Log("[Move] Up");
-        // Column
-        for (int j = 0; j < tilesPerRow; j++)
-        {
 
+        // Column
+        for (int j = 0; j < TilesPerRow; j++)
+        {
             // Row (reverse)
-            for (int i = 1; i < tilesPerRow; i++)
+            for (int i = 1; i < TilesPerRow; i++)
             {
                 Tile tileFrom = tileObjects[i, j];
 
@@ -132,9 +135,9 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
                 }
-                // Merge tile
                 else if (tileFrom == tileTo)
                 {
+                    // Merge tile
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
@@ -142,23 +145,22 @@ public class TileManager : MonoBehaviour
             }
 
             // Reset all merges in this column
-            for (int i = 0; i < tilesPerRow; i++)
+            for (int i = 0; i < TilesPerRow; i++)
             {
                 tileObjects[i, j].Merged = false;
             }
-
         }
     }
 
     private void MoveLeft()
     {
         Debug.Log("[Move] Left");
-        // Row
-        for (int i = 0; i < tilesPerRow; i++)
-        {
 
+        // Row
+        for (int i = 0; i < TilesPerRow; i++)
+        {
             // Column (reverse)
-            for (int j = 1; j < tilesPerRow; j++)
+            for (int j = 1; j < TilesPerRow; j++)
             {
                 Tile tileFrom = tileObjects[i, j];
 
@@ -193,9 +195,9 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
                 }
-                // Merge tile
                 else if (tileFrom == tileTo)
                 {
+                    // Merge tile
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
@@ -203,23 +205,22 @@ public class TileManager : MonoBehaviour
             }
 
             // Reset all merges in this row
-            for (int j = 0; j < tilesPerRow; j++)
+            for (int j = 0; j < TilesPerRow; j++)
             {
                 tileObjects[i, j].Merged = false;
             }
-
         }
     }
 
     private void MoveDown()
     {
         Debug.Log("[Move] Down");
-        // Column
-        for (int j = 0; j < tilesPerRow; j++)
-        {
 
+        // Column
+        for (int j = 0; j < TilesPerRow; j++)
+        {
             // Row (reverse)
-            for (int i = tilesPerRow - 2; i >= 0; i--)
+            for (int i = TilesPerRow - 2; i >= 0; i--)
             {
                 Tile tileFrom = tileObjects[i, j];
 
@@ -232,7 +233,7 @@ public class TileManager : MonoBehaviour
                 Tile tileTo = null;
 
                 // Search for empty cells in the same column
-                for (int ii = i + 1; ii < tilesPerRow; ii++)
+                for (int ii = i + 1; ii < TilesPerRow; ii++)
                 {
                     Tile tileTemp = tileObjects[ii, j];
 
@@ -254,9 +255,9 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
                 }
-                // Merge tile
                 else if (tileFrom == tileTo)
                 {
+                    // Merge tile
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
@@ -264,23 +265,22 @@ public class TileManager : MonoBehaviour
             }
 
             // Reset all merges in this column
-            for (int i = 0; i < tilesPerRow; i++)
+            for (int i = 0; i < TilesPerRow; i++)
             {
                 tileObjects[i, j].Merged = false;
             }
-
         }
     }
 
     private void MoveRight()
     {
         Debug.Log("[Move] Right");
-        // Row
-        for (int i = 0; i < tilesPerRow; i++)
-        {
 
+        // Row
+        for (int i = 0; i < TilesPerRow; i++)
+        {
             // Column (reverse)
-            for (int j = tilesPerRow - 2; j >= 0; j--)
+            for (int j = TilesPerRow - 2; j >= 0; j--)
             {
                 Tile tileFrom = tileObjects[i, j];
 
@@ -293,7 +293,7 @@ public class TileManager : MonoBehaviour
                 Tile tileTo = null;
 
                 // Search for empty cells in the same row
-                for (int jj = j + 1; jj < tilesPerRow; jj++)
+                for (int jj = j + 1; jj < TilesPerRow; jj++)
                 {
                     Tile tileTemp = tileObjects[i, jj];
 
@@ -315,9 +315,9 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
                 }
-                // Merge tile
                 else if (tileFrom == tileTo)
                 {
+                    // Merge tile
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
@@ -325,16 +325,15 @@ public class TileManager : MonoBehaviour
             }
 
             // Reset all merges in this row
-            for (int j = 0; j < tilesPerRow; j++)
+            for (int j = 0; j < TilesPerRow; j++)
             {
                 tileObjects[i, j].Merged = false;
             }
-
         }
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         int horizontal = 0, vertical = 0;
 
@@ -391,7 +390,6 @@ public class TileManager : MonoBehaviour
             Move(horizontal, vertical);
         }
 
-        #region DEBUG
         // DEBUG: spawn blocks
         if (Input.GetKeyDown(KeyCode.Mouse2))
         {
@@ -406,17 +404,17 @@ public class TileManager : MonoBehaviour
             tileObjects[0, 1].Value = 1;
             tileObjects[0, 2].Value = 1;
             tileObjects[0, 3].Value = 1;
-            //
+
             tileObjects[1, 0].Value = 1;
             tileObjects[1, 1].Value = 1;
             tileObjects[1, 2].Value = 2;
             tileObjects[1, 3].Value = 3;
-            //
+
             tileObjects[2, 0].Value = 3;
             tileObjects[2, 1].Value = 2;
             tileObjects[2, 2].Value = 1;
             tileObjects[2, 3].Value = 1;
-            //
+
             tileObjects[3, 0].Value = 1;
             tileObjects[3, 1].Value = 0;
             tileObjects[3, 2].Value = 1;
@@ -428,17 +426,17 @@ public class TileManager : MonoBehaviour
             tileObjects[3, 1].Value = 0;
             tileObjects[3, 2].Value = 0;
             tileObjects[3, 3].Value = 1;
-            //
+
             tileObjects[2, 0].Value = 0;
             tileObjects[2, 1].Value = 0;
             tileObjects[2, 2].Value = 1;
             tileObjects[2, 3].Value = 0;
-            //
+
             tileObjects[1, 0].Value = 0;
             tileObjects[1, 1].Value = 1;
             tileObjects[1, 2].Value = 0;
             tileObjects[1, 3].Value = 0;
-            //
+
             tileObjects[0, 0].Value = 1;
             tileObjects[0, 1].Value = 0;
             tileObjects[0, 2].Value = 0;
@@ -450,28 +448,22 @@ public class TileManager : MonoBehaviour
             tileObjects[0, 1].Value = 1;
             tileObjects[0, 2].Value = 0;
             tileObjects[0, 3].Value = 0;
-            //
+
             tileObjects[1, 0].Value = 0;
             tileObjects[1, 1].Value = 0;
             tileObjects[1, 2].Value = 1;
             tileObjects[1, 3].Value = 1;
-            //
+
             tileObjects[2, 0].Value = 0;
             tileObjects[2, 1].Value = 1;
             tileObjects[2, 2].Value = 0;
             tileObjects[2, 3].Value = 1;
-            //
+
             tileObjects[3, 0].Value = 1;
             tileObjects[3, 1].Value = 0;
             tileObjects[3, 2].Value = 0;
             tileObjects[3, 3].Value = 1;
         }
-        #endregion
-    }
-
-    public void Move(int x, int y, bool relativeToSelf = true)
-    {
-        //Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
     }
 
     // Tiles methods
@@ -509,9 +501,9 @@ public class TileManager : MonoBehaviour
     {
         List<Vector2> cells = new List<Vector2>();
 
-        for (int i = 0; i < tilesPerRow; i++)
+        for (int i = 0; i < TilesPerRow; i++)
         {
-            for (int j = 0; j < tilesPerRow; j++)
+            for (int j = 0; j < TilesPerRow; j++)
             {
                 if (tileObjects[i, j].Value == 0)
                 {

@@ -1,15 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
-    private int exponent = 0;
-
-    private Image tileImage;
-    private Text tileText;
-
-    private static Color32[] colorTable =
+    private static readonly Color32[] ColorTable =
     {
         new Color32(204, 192, 179, 255),    // 1 (none)
         new Color32(238, 228, 218, 255),    // 2
@@ -26,12 +20,10 @@ public class Tile : MonoBehaviour
         new Color32(237, 194, 46, 255),     // 4096
     };
 
-    // Use this for initialization
-    void Awake()
-    {
-        tileImage = GetComponent<Image>();
-        tileText = GetComponentInChildren<Text>();
-    }
+    private int exponent;
+
+    private Image tileImage;
+    private Text tileText;
 
     /*
      * Properties
@@ -52,6 +44,7 @@ public class Tile : MonoBehaviour
             {
                 Debug.LogErrorFormat("[{0}] Number {1} out of range", name, value);
             }
+
             value = Mathf.Clamp(value, 0, 12);
 
             if (value > 0)
@@ -60,35 +53,13 @@ public class Tile : MonoBehaviour
             }
             else
             {
-                tileText.text = "";
+                tileText.text = string.Empty;
             }
+
             exponent = value;
 
             UpdateColor();
         }
-    }
-
-    /// <summary>
-    /// Change Tile color based on his value
-    /// </summary>
-    private void UpdateColor()
-    {
-        // Background
-        tileImage.color = colorTable[exponent];
-        // Text color
-        if (exponent <= 2)
-        {
-            tileText.color = new Color32(119, 110, 101, 255);
-        }
-        else
-        {
-            tileText.color = new Color32(249, 246, 242, 255);
-        }
-    }
-
-    public override string ToString()
-    {
-        return string.Format("{0} = 2^{1}", name, exponent);
     }
 
     /*
@@ -98,7 +69,7 @@ public class Tile : MonoBehaviour
     public static bool operator ==(Tile lhs, Tile rhs)
     {
         // If both are null, or both are same instance, return true.
-        if (System.Object.ReferenceEquals(lhs, rhs))
+        if (object.ReferenceEquals(lhs, rhs))
         {
             return true;
         }
@@ -121,7 +92,7 @@ public class Tile : MonoBehaviour
     public static bool operator ==(Tile tile, int number)
     {
         // If is null, return false.
-        if (((object)tile == null))
+        if ((object)tile == null)
         {
             return false;
         }
@@ -133,5 +104,36 @@ public class Tile : MonoBehaviour
     public static bool operator !=(Tile tile, int number)
     {
         return !(tile == number);
+    }
+
+    public override string ToString()
+    {
+        return string.Format("{0} = 2^{1}", name, exponent);
+    }
+
+    // Use this for initialization
+    private void Awake()
+    {
+        tileImage = GetComponent<Image>();
+        tileText = GetComponentInChildren<Text>();
+    }
+
+    /// <summary>
+    /// Change Tile color based on his value
+    /// </summary>
+    private void UpdateColor()
+    {
+        // Background
+        tileImage.color = ColorTable[exponent];
+
+        // Text color
+        if (exponent <= 2)
+        {
+            tileText.color = new Color32(119, 110, 101, 255);
+        }
+        else
+        {
+            tileText.color = new Color32(249, 246, 242, 255);
+        }
     }
 }
