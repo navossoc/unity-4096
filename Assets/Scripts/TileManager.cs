@@ -8,11 +8,7 @@ public class TileManager : MonoBehaviour
 
     // Configuration
     private const int TilesPerRow = 4;
-    private const int TileWidth = 96, TileHeight = 96;
     private const int StartTiles = 2;
-
-    private RectOffset tilesParentPadding;
-    private RectOffset tileMargin;
 
     // Tile array reference
     private Tile[,] tileObjects;
@@ -20,59 +16,30 @@ public class TileManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        // left, right, top, bottom
-        tilesParentPadding = new RectOffset(8, 8, 8, 8);
-        tileMargin = new RectOffset(4, 4, 4, 4);
-
         // Allocate memory
         tileObjects = new Tile[TilesPerRow, TilesPerRow];
 
-        int x = tilesParentPadding.left;
-        int y = tilesParentPadding.top;
-
-        // For each row
+        // For each row        
         for (int i = 0; i < TilesPerRow; i++)
         {
-            x = tilesParentPadding.left;
-            y += tileMargin.top;
-
-            // For each column
+            // For each column            
             for (int j = 0; j < TilesPerRow; j++)
             {
-                // Create a new tile
-                GameObject tile = Instantiate<GameObject>(TilePrefab);
-                tile.name = string.Format("Tile ({0}, {1})", i, j);
+                // Find tile
+                string name = string.Format("Tile ({0}, {1})", i, j);
+                GameObject tile = GameObject.Find(name);
 
-                RectTransform tileRect = tile.GetComponent<RectTransform>();
-
-                // Resize tile
-                tileRect.sizeDelta = new Vector2(TileWidth, TileHeight);
-
-                // Set parent
-                tileRect.SetParent(gameObject.transform, false);
-
-                x += tileMargin.left;
-
-                // Move tile
-                tileRect.Translate(x, -y, 0);
-
-                x += TileWidth + tileMargin.right;
-
-                // Assign tile
-                tileObjects[i, j] = tile.GetComponent<Tile>();
-                tileObjects[i, j].Value = 0;
+                if (tile)
+                {
+                    // Assign tile
+                    tileObjects[i, j] = tile.GetComponent<Tile>();
+                }
+                else
+                {
+                    Debug.LogError("Failed to find " + name);
+                }
             }
-
-            y += TileHeight + tileMargin.bottom;
         }
-
-        // Panel
-        x += tilesParentPadding.right;
-        y += tilesParentPadding.bottom;
-
-        // Resize
-        RectTransform panelRect = GetComponent<RectTransform>();
-        panelRect.sizeDelta = new Vector2(x, y);
 
         // Add random tiles
         for (int i = 0; i < StartTiles; i++)
@@ -81,7 +48,7 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public void Move(int x, int y, bool relativeToSelf = true)
+    public void Move(int x, int y)
     {
         Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
     }
@@ -382,6 +349,11 @@ public class TileManager : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             Move(horizontal, vertical);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
 
         // DEBUG: spawn blocks

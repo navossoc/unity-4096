@@ -151,10 +151,11 @@ public class Tile : MonoBehaviour
     }
 
     // Use this for initialization
-    private void Awake()
+    private void Start()
     {
         tileImage = GetComponent<Image>();
         tileText = GetComponentInChildren<Text>();
+        Value = 0;
     }
 
     /// <summary>
