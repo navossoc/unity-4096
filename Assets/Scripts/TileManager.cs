@@ -20,17 +20,19 @@ public class TileManager : MonoBehaviour
         int uX = Mathf.Abs(x);
         int uY = Mathf.Abs(y);
 
+        bool spawn = false;
+
         // Handle axes behavior
         if (uX > uY)
         {
             // Axis X
             if (x < 0)
             {
-                MoveLeft();
+                spawn = MoveLeft();
             }
             else if (x > 0)
             {
-                MoveRight();
+                spawn = MoveRight();
             }
         }
         else if (uX < uY)
@@ -38,16 +40,22 @@ public class TileManager : MonoBehaviour
             // Axis Y
             if (y < 0)
             {
-                MoveDown();
+                spawn = MoveDown();
             }
             else if (y > 0)
             {
-                MoveUp();
+                spawn = MoveUp();
             }
         }
         else if (uX != 0 && uY != 0)
         {
             Debug.LogWarning("Can't handle both axes at the same time");
+        }
+
+        // If an action was made (merge/move)
+        if (spawn)
+        {
+            AddRandomTile();
         }
     }
 
@@ -86,8 +94,10 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private void MoveUp()
+    private bool MoveUp()
     {
+        bool spawn = false;
+
         // Column
         for (int j = 0; j < TilesPerRow; j++)
         {
@@ -126,6 +136,7 @@ public class TileManager : MonoBehaviour
                 {
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
                 else if (tileFrom == tileTo)
                 {
@@ -133,6 +144,7 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
             }
 
@@ -142,10 +154,14 @@ public class TileManager : MonoBehaviour
                 tileObjects[i, j].Merged = false;
             }
         }
+
+        return spawn;
     }
 
-    private void MoveLeft()
+    private bool MoveLeft()
     {
+        bool spawn = false;
+
         // Row
         for (int i = 0; i < TilesPerRow; i++)
         {
@@ -184,6 +200,7 @@ public class TileManager : MonoBehaviour
                 {
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
                 else if (tileFrom == tileTo)
                 {
@@ -191,6 +208,7 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
             }
 
@@ -200,10 +218,14 @@ public class TileManager : MonoBehaviour
                 tileObjects[i, j].Merged = false;
             }
         }
+
+        return spawn;
     }
 
-    private void MoveDown()
+    private bool MoveDown()
     {
+        bool spawn = false;
+
         // Column
         for (int j = 0; j < TilesPerRow; j++)
         {
@@ -242,6 +264,7 @@ public class TileManager : MonoBehaviour
                 {
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
                 else if (tileFrom == tileTo)
                 {
@@ -249,6 +272,7 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
             }
 
@@ -258,10 +282,14 @@ public class TileManager : MonoBehaviour
                 tileObjects[i, j].Merged = false;
             }
         }
+
+        return spawn;
     }
 
-    private void MoveRight()
+    private bool MoveRight()
     {
+        bool spawn = false;
+
         // Row
         for (int i = 0; i < TilesPerRow; i++)
         {
@@ -300,6 +328,7 @@ public class TileManager : MonoBehaviour
                 {
                     tileTo.Value = tileFrom.Value;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
                 else if (tileFrom == tileTo)
                 {
@@ -307,6 +336,7 @@ public class TileManager : MonoBehaviour
                     tileTo.Value = tileFrom.Value + 1;
                     tileTo.Merged = true;
                     tileFrom.Value = 0;
+                    spawn = true;
                 }
             }
 
@@ -316,6 +346,8 @@ public class TileManager : MonoBehaviour
                 tileObjects[i, j].Merged = false;
             }
         }
+
+        return spawn;
     }
 
     // Update is called once per frame
