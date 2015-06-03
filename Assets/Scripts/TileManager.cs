@@ -45,6 +45,10 @@ public class TileManager : MonoBehaviour
                 MoveUp();
             }
         }
+        else if (uX != 0 && uY != 0)
+        {
+            Debug.LogWarning("Can't handle both axes at the same time");
+        }
     }
 
     // Use this for initialization
