@@ -13,6 +13,40 @@ public class TileManager : MonoBehaviour
     // Tile array reference
     private Tile[,] tileObjects;
 
+    public void Move(int x, int y)
+    {
+        Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
+
+        int uX = Mathf.Abs(x);
+        int uY = Mathf.Abs(y);
+
+        // Handle axes behavior
+        if (uX > uY)
+        {
+            // Axis X
+            if (x < 0)
+            {
+                MoveLeft();
+            }
+            else if (x > 0)
+            {
+                MoveRight();
+            }
+        }
+        else if (uX < uY)
+        {
+            // Axis Y
+            if (y < 0)
+            {
+                MoveDown();
+            }
+            else if (y > 0)
+            {
+                MoveUp();
+            }
+        }
+    }
+
     // Use this for initialization
     private void Start()
     {
@@ -48,15 +82,8 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    public void Move(int x, int y)
-    {
-        Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
-    }
-
     private void MoveUp()
     {
-        Debug.Log("[Move] Up");
-
         // Column
         for (int j = 0; j < TilesPerRow; j++)
         {
@@ -115,8 +142,6 @@ public class TileManager : MonoBehaviour
 
     private void MoveLeft()
     {
-        Debug.Log("[Move] Left");
-
         // Row
         for (int i = 0; i < TilesPerRow; i++)
         {
@@ -175,8 +200,6 @@ public class TileManager : MonoBehaviour
 
     private void MoveDown()
     {
-        Debug.Log("[Move] Down");
-
         // Column
         for (int j = 0; j < TilesPerRow; j++)
         {
@@ -235,8 +258,6 @@ public class TileManager : MonoBehaviour
 
     private void MoveRight()
     {
-        Debug.Log("[Move] Right");
-
         // Row
         for (int i = 0; i < TilesPerRow; i++)
         {
@@ -296,62 +317,8 @@ public class TileManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        int horizontal = 0, vertical = 0;
-
-        // Mobile
-#if UNITY_ANDROID
-        horizontal = (int)Input.GetAxisRaw("Horizontal");
-        vertical = (int)Input.GetAxisRaw("Vertical");
-#else
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            horizontal = -1;
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            horizontal = 1;
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            vertical = -1;
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            vertical = 1;
-        }
-#endif
-
-        if (horizontal != 0 && vertical != 0)
-        {
-            Debug.LogError("[Input] Can't handle both axis at the same time");
-            return;
-        }
-
-        if (horizontal < 0)
-        {
-            MoveLeft();
-        }
-        else if (horizontal > 0)
-        {
-            MoveRight();
-        }
-
-        if (vertical < 0)
-        {
-            MoveDown();
-        }
-        else if (vertical > 0)
-        {
-            MoveUp();
-        }
-
-        if (horizontal != 0 || vertical != 0)
-        {
-            Move(horizontal, vertical);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // TODO: move to GameController?
+        if (Input.GetButtonDown("Cancel"))
         {
             Application.Quit();
         }
