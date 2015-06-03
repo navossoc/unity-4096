@@ -9,14 +9,14 @@ public class TouchInput : MonoBehaviour
     [Range(1f, 5f)]
     public float MaxSwipeTime = 1f;
 
-    public SwipeAction OnSwipe;
-
     private const int Deadzone = 5;
 
     private float startTime;
     private Vector2 startPos;
 
     public delegate void SwipeAction(int x, int y);
+
+    public event SwipeAction OnSwipe;
 
     // Update is called once per frame
     private void Update()
