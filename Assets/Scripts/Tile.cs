@@ -30,6 +30,20 @@ public class Tile : MonoBehaviour
 
     public bool Merged { get; set; }
 
+    public int Score
+    {
+        get
+        {
+            int result = 1;
+            for (int i = 0; i < exponent; i++)
+            {
+                result *= 2;
+            }
+
+            return result;
+        }
+    }
+
     public int Value
     {
         get

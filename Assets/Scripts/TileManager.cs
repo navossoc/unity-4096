@@ -13,6 +13,10 @@ public class TileManager : MonoBehaviour
     // Tile array reference
     private Tile[,] tileObjects;
 
+    public delegate void Score(Tile tile);
+
+    public event Score OnScore;
+
     public bool ValidAction { get; set; }
 
     public void Move(int x, int y)
@@ -297,6 +301,9 @@ public class TileManager : MonoBehaviour
         tileFrom.Value = 0;
 
         ValidAction = true;
+
+        // Notify event
+        OnScore(tileTo);
     }
 
     private void MoveTile(Tile tileTo, Tile tileFrom)

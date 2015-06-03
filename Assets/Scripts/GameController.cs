@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
     private GenericInput genericInput;
     private TouchInput touchInput;
 
+    private ScoreManager scoreManager;
     private TileManager tileManager;
 
     // Use this for initialization
@@ -15,11 +16,23 @@ public class GameController : MonoBehaviour
         genericInput = GetComponent<GenericInput>();
         touchInput = GetComponent<TouchInput>();
 
+        // Score Manager
+        scoreManager = GameObject.FindObjectOfType<ScoreManager>();
+
         // Tile Manager
         tileManager = GameObject.FindObjectOfType<TileManager>();
 
-        // Subscribe to events
+        // Called for every tile merged
+        tileManager.OnScore += tileManager_OnScore;
+
+        // Subscribe to input events
         genericInput.OnKeyDown += tileManager.Move;
         touchInput.OnSwipe += tileManager.Move;
+    }
+
+    void tileManager_OnScore(Tile tile)
+    {
+        // Update score and high score
+        scoreManager.AddPoints(tile.Score);
     }
 }
