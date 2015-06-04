@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
@@ -162,6 +163,22 @@ public class Tile : MonoBehaviour
     public override string ToString()
     {
         return string.Format("{0} = 2^{1}", name, exponent);
+    }
+
+    /*
+     * Animations
+     */
+
+    public IEnumerator AppearAnimation()
+    {
+        for (float t = 0f; t < 1f; t += Time.deltaTime / 0.2f)
+        {
+            transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
+            yield return null;
+        }
+
+        // Just to ensure the original size is achieved
+        transform.localScale = Vector3.one;
     }
 
     // Use this for initialization

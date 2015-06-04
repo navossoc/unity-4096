@@ -62,7 +62,7 @@ public class TileManager : MonoBehaviour
         // If an action was made (merge/move)
         if (ValidAction)
         {
-            ResetMerges();
+            ResetTiles();
             AddRandomTile();
         }
     }
@@ -314,15 +314,18 @@ public class TileManager : MonoBehaviour
         ValidAction = true;
     }
 
-    private void ResetMerges()
+    private void ResetTiles()
     {
         // For each row
         for (int i = 0; i < TilesPerRow; i++)
         {
-            // Reset all merges in this row
+            // Reset all tiles in this row
             for (int j = 0; j < TilesPerRow; j++)
             {
                 tileObjects[i, j].Merged = false;
+
+                // Reset animations
+                tileObjects[i, j].transform.localScale = Vector3.one;
             }
         }
     }
@@ -421,7 +424,15 @@ public class TileManager : MonoBehaviour
             int value = Random.value < 0.9f ? 1 : 2;
             int x = (int)cell.x;
             int y = (int)cell.y;
-            tileObjects[x, y].Value = value;
+
+            Tile tile = tileObjects[x, y];
+            tile.Value = value;
+
+            // Stop all animations in progress
+            StopAllCoroutines();
+
+            // Play tile appearing effect
+            StartCoroutine(tile.AppearAnimation());
         }
         else
         {
