@@ -80,7 +80,7 @@ public class TileManager : MonoBehaviour
             for (int j = 0; j < TilesPerRow; j++)
             {
                 // Find tile
-                string name = string.Format("Tile ({0}, {1})", i, j);
+                string name = string.Format("Tile ({0}, {1})/Tile", i, j);
                 GameObject tile = GameObject.Find(name);
 
                 if (tile)
