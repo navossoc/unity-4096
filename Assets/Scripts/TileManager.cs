@@ -316,6 +316,9 @@ public class TileManager : MonoBehaviour
 
     private void ResetTiles()
     {
+        // Stop all animations in progress
+        StopAllCoroutines();
+
         // For each row
         for (int i = 0; i < TilesPerRow; i++)
         {
@@ -427,9 +430,6 @@ public class TileManager : MonoBehaviour
 
             Tile tile = tileObjects[x, y];
             tile.Value = value;
-
-            // Stop all animations in progress
-            StopAllCoroutines();
 
             // Play tile appearing effect
             StartCoroutine(tile.AppearAnimation());
