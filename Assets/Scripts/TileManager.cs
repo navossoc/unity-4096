@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    // Tile Prefab
-    public GameObject TilePrefab;
-
     // Configuration
     private const int TilesPerRow = 4;
     private const int StartTiles = 2;
