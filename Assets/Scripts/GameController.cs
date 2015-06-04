@@ -23,14 +23,14 @@ public class GameController : MonoBehaviour
         tileManager = GameObject.FindObjectOfType<TileManager>();
 
         // Called for every tile merged
-        tileManager.OnScore += tileManager_OnScore;
+        tileManager.OnScore += TileManager_OnScore;
 
         // Subscribe to input events
         genericInput.OnKeyDown += tileManager.Move;
         touchInput.OnSwipe += tileManager.Move;
     }
 
-    void tileManager_OnScore(Tile tile)
+    private void TileManager_OnScore(Tile tile)
     {
         // Update score and high score
         scoreManager.AddPoints(tile.Score);
