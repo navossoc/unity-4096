@@ -313,9 +313,6 @@ public class TileManager : MonoBehaviour
 
     private void ResetTiles()
     {
-        // Stop all animations in progress
-        StopAllCoroutines();
-
         // For each row
         for (int i = 0; i < TilesPerRow; i++)
         {
@@ -323,9 +320,6 @@ public class TileManager : MonoBehaviour
             for (int j = 0; j < TilesPerRow; j++)
             {
                 tileObjects[i, j].Merged = false;
-
-                // Reset animations
-                tileObjects[i, j].transform.localScale = Vector3.one;
             }
         }
     }
@@ -427,9 +421,6 @@ public class TileManager : MonoBehaviour
 
             Tile tile = tileObjects[x, y];
             tile.Value = value;
-
-            // Play tile appearing effect
-            StartCoroutine(tile.AppearAnimation());
         }
         else
         {
