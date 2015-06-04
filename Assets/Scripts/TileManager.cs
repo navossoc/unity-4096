@@ -18,7 +18,7 @@ public class TileManager : MonoBehaviour
 
     public void Move(int x, int y)
     {
-        Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
+        ////Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
 
         // Reset action state
         ValidAction = false;
@@ -77,7 +77,7 @@ public class TileManager : MonoBehaviour
             for (int j = 0; j < TilesPerRow; j++)
             {
                 // Find tile
-                string name = string.Format("Tile ({0}, {1})/Tile", i, j);
+                string name = string.Format("Tiles/Tile ({0}, {1})", i, j);
                 GameObject tile = GameObject.Find(name);
 
                 if (tile)
