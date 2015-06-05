@@ -19,4 +19,11 @@ public class Menu : MonoBehaviour
         Debug.Log("[Menu] Quit");
         Application.Quit();
     }
+
+#if UNITY_STANDALONE
+    private void Awake()
+    {
+        Screen.SetResolution(384, 640, false);
+    }
+#endif
 }
