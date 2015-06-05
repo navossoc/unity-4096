@@ -136,11 +136,11 @@ public class TileManager : MonoBehaviour
 
                 if (tileTo == 0)
                 {
-                    MoveTile(tileTo, tileFrom);
+                    MoveTile(tileFrom, tileTo);
                 }
                 else if (tileFrom == tileTo)
                 {
-                    MergeTile(tileTo, tileFrom);
+                    MergeTile(tileFrom, tileTo);
                 }
             }
         }
@@ -183,11 +183,11 @@ public class TileManager : MonoBehaviour
 
                 if (tileTo == 0)
                 {
-                    MoveTile(tileTo, tileFrom);
+                    MoveTile(tileFrom, tileTo);
                 }
                 else if (tileFrom == tileTo)
                 {
-                    MergeTile(tileTo, tileFrom);
+                    MergeTile(tileFrom, tileTo);
                 }
             }
         }
@@ -230,11 +230,11 @@ public class TileManager : MonoBehaviour
 
                 if (tileTo == 0)
                 {
-                    MoveTile(tileTo, tileFrom);
+                    MoveTile(tileFrom, tileTo);
                 }
                 else if (tileFrom == tileTo)
                 {
-                    MergeTile(tileTo, tileFrom);
+                    MergeTile(tileFrom, tileTo);
                 }
             }
         }
@@ -277,11 +277,11 @@ public class TileManager : MonoBehaviour
 
                 if (tileTo == 0)
                 {
-                    MoveTile(tileTo, tileFrom);
+                    MoveTile(tileFrom, tileTo);
                 }
                 else if (tileFrom == tileTo)
                 {
-                    MergeTile(tileTo, tileFrom);
+                    MergeTile(tileFrom, tileTo);
                 }
             }
         }
@@ -291,7 +291,7 @@ public class TileManager : MonoBehaviour
      * Helpers
      */
 
-    private void MergeTile(Tile tileTo, Tile tileFrom)
+    private void MergeTile(Tile tileFrom, Tile tileTo)
     {
         tileTo.Value = tileFrom.Value + 1;
         tileTo.Merged = true;
@@ -303,7 +303,7 @@ public class TileManager : MonoBehaviour
         OnScore(tileTo);
     }
 
-    private void MoveTile(Tile tileTo, Tile tileFrom)
+    private void MoveTile(Tile tileFrom, Tile tileTo)
     {
         tileTo.Value = tileFrom.Value;
         tileFrom.Value = 0;
