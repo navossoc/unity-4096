@@ -12,7 +12,11 @@ public class TileManager : MonoBehaviour
 
     public delegate void Score(Tile tile);
 
+    public delegate void State(GameController.GameState state);
+
     public event Score OnScore;
+
+    public event State OnStateChange;
 
     public bool ValidAction { get; set; }
 
@@ -64,6 +68,13 @@ public class TileManager : MonoBehaviour
             ResetTiles();
             AddRandomTile();
         }
+
+        // Check if there is no more actions
+        if (!MovesAvailable())
+        {
+            // Notify about game state change
+            OnStateChange(GameController.GameState.Loser);
+        }
     }
 
     // Use this for initialization
@@ -99,6 +110,9 @@ public class TileManager : MonoBehaviour
         {
             AddRandomTile();
         }
+
+        // Notify about game state change
+        OnStateChange(GameController.GameState.Playing);
     }
 
     private void MoveUp()
@@ -301,6 +315,13 @@ public class TileManager : MonoBehaviour
 
         ValidAction = true;
 
+        // Tile 4096
+        if (tileTo.Value == 12)
+        {
+            // Notify about game state change
+            OnStateChange(GameController.GameState.Winner);
+        }
+
         // Notify event
         OnScore(tileTo);
     }
@@ -409,6 +430,50 @@ public class TileManager : MonoBehaviour
             tileObjects[3, 2].Value = 0;
             tileObjects[3, 3].Value = 1;
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            tileObjects[0, 0].Value = 11;
+            tileObjects[0, 1].Value = 11;
+            tileObjects[0, 2].Value = 11;
+            tileObjects[0, 3].Value = 11;
+
+            tileObjects[1, 0].Value = 0;
+            tileObjects[1, 1].Value = 0;
+            tileObjects[1, 2].Value = 0;
+            tileObjects[1, 3].Value = 0;
+
+            tileObjects[2, 0].Value = 0;
+            tileObjects[2, 1].Value = 0;
+            tileObjects[2, 2].Value = 0;
+            tileObjects[2, 3].Value = 0;
+
+            tileObjects[3, 0].Value = 0;
+            tileObjects[3, 1].Value = 0;
+            tileObjects[3, 2].Value = 0;
+            tileObjects[3, 3].Value = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            tileObjects[0, 0].Value = 2;
+            tileObjects[0, 1].Value = 3;
+            tileObjects[0, 2].Value = 4;
+            tileObjects[0, 3].Value = 0;
+
+            tileObjects[1, 0].Value = 2;
+            tileObjects[1, 1].Value = 3;
+            tileObjects[1, 2].Value = 4;
+            tileObjects[1, 3].Value = 5;
+
+            tileObjects[2, 0].Value = 3;
+            tileObjects[2, 1].Value = 4;
+            tileObjects[2, 2].Value = 5;
+            tileObjects[2, 3].Value = 6;
+
+            tileObjects[3, 0].Value = 4;
+            tileObjects[3, 1].Value = 5;
+            tileObjects[3, 2].Value = 6;
+            tileObjects[3, 3].Value = 7;
+        }
     }
 
     // Tiles methods
@@ -456,5 +521,78 @@ public class TileManager : MonoBehaviour
         }
 
         return cells;
+    }
+
+    private Tile GetTile(int i, int j)
+    {
+        if (i < 0 || i >= TilesPerRow)
+        {
+            return null;
+        }
+
+        if (j < 0 || j >= TilesPerRow)
+        {
+            return null;
+        }
+
+        return tileObjects[i, j];
+    }
+
+    private bool TileMatchesAvailable()
+    {
+        // Row
+        for (int i = 0; i < TilesPerRow; i++)
+        {
+            // Column
+            for (int j = 0; j < TilesPerRow; j++)
+            {
+                Tile tile = tileObjects[i, j];
+
+                // If the tile is empty (skip)
+                if (tile == 0)
+                {
+                    continue;
+                }
+
+                // Check all directions
+                if (tile == GetTile(i, j + 1))
+                {
+                    // Up
+                    return true;
+                }
+                else if (tile == GetTile(i - 1, j))
+                {
+                    // Left
+                    return true;
+                }
+                else if (tile == GetTile(i, j - 1))
+                {
+                    // Down
+                    return true;
+                }
+                else if (tile == GetTile(i + 1, j))
+                {
+                    // Right
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private bool MovesAvailable()
+    {
+        if (AvailableCells().Count != 0)
+        {
+            return true;
+        }
+
+        if (TileMatchesAvailable())
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour
     {
         score += points;
         scoreText.text = score.ToString();
-        Debug.Log("Score: " + score);
+        ////Debug.Log("Score: " + score);
 
         // If the current score is higher than the high score
         if (score > highScore)
