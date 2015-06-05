@@ -21,7 +21,10 @@ public class GenericInput : MonoBehaviour
             lastAxesValues.x = tempX;
             lastAxesValues.y = tempY;
 
-            OnKeyDown((int)tempX, (int)tempY);
+            if (OnKeyDown != null)
+            {
+                OnKeyDown((int)tempX, (int)tempY);
+            }
         }
     }
 }

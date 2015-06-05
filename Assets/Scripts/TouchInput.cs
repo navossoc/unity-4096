@@ -71,7 +71,10 @@ public class TouchInput : MonoBehaviour
             int swipeDirectionX = Mathf.RoundToInt(swipeDirection.x * Deadzone);
             int swipeDirectionY = Mathf.RoundToInt(swipeDirection.y * Deadzone);
 
-            OnSwipe(swipeDirectionX, swipeDirectionY);
+            if (OnSwipe != null)
+            {
+                OnSwipe(swipeDirectionX, swipeDirectionY);
+            }
 
 #if UNITY_EDITOR
             // Draw the swipe gesture
