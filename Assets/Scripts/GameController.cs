@@ -2,6 +2,10 @@
 
 public class GameController : MonoBehaviour
 {
+    // Screens
+    public GameObject WinScreen;
+    public GameObject LoseScreen;
+
     // Input
     private GenericInput genericInput;
     private TouchInput touchInput;
@@ -14,6 +18,11 @@ public class GameController : MonoBehaviour
         Playing,
         Winner,
         Loser
+    }
+
+    public void RestartGame()
+    {
+        Application.LoadLevel("Game");
     }
 
     // Use this for initialization
@@ -50,11 +59,11 @@ public class GameController : MonoBehaviour
         {
             if (state == GameState.Winner)
             {
-                Debug.LogError("You win man!");
+                WinScreen.SetActive(true);
             }
             else if (state == GameState.Loser)
             {
-                Debug.LogError("You lose man!");
+                LoseScreen.SetActive(true);
             }
 
             // Unsubscribe to input events
