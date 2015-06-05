@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
-    private static readonly Color32[] ColorTable =
+    private static readonly Color32[] ImageColors =
     {
-        new Color32(204, 192, 179, 255),    // 1 (none)
+        Color.clear,                        // 1 (none)
         new Color32(238, 228, 218, 255),    // 2
         new Color32(237, 224, 200, 255),    // 4
         new Color32(242, 177, 121, 255),    // 8
@@ -19,6 +19,14 @@ public class Tile : MonoBehaviour
         new Color32(237, 197, 63, 255),     // 1024
         new Color32(237, 194, 46, 255),     // 2048
         new Color32(237, 194, 46, 255),     // 4096
+    };
+
+    private static readonly Color32[] TextColors = 
+    {
+        Color.clear,                        // 1 (none)
+        new Color32(119, 110, 101, 255),    // 2
+        new Color32(119, 110, 101, 255),    // 4
+        new Color32(249, 246, 242, 255),    // 8+
     };
 
     private int exponent;
@@ -61,13 +69,13 @@ public class Tile : MonoBehaviour
 
             value = Mathf.Clamp(value, 0, 12);
 
-            if (value > 0)
+            if (value == 0)
             {
-                tileText.text = (1 << value).ToString();
+                tileText.text = string.Empty;
             }
             else
             {
-                tileText.text = string.Empty;
+                tileText.text = (1 << value).ToString();
             }
 
             exponent = value;
@@ -195,16 +203,16 @@ public class Tile : MonoBehaviour
     private void UpdateColor()
     {
         // Background
-        tileImage.color = ColorTable[exponent];
+        tileImage.color = ImageColors[exponent];
 
         // Text color
         if (exponent <= 2)
         {
-            tileText.color = new Color32(119, 110, 101, 255);
+            tileText.color = TextColors[exponent];
         }
         else
         {
-            tileText.color = new Color32(249, 246, 242, 255);
+            tileText.color = TextColors[3];
         }
     }
 }
