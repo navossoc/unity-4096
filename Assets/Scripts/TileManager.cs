@@ -20,6 +20,12 @@ public class TileManager : MonoBehaviour
     {
         ////Debug.LogFormat("[Move] x: {0}, y: {1}", x, y);
 
+        // Ignore no movement
+        if (x == 0 && y == 0)
+        {
+            return;
+        }
+
         // Reset action state
         ValidAction = false;
 
@@ -50,10 +56,6 @@ public class TileManager : MonoBehaviour
             {
                 MoveUp();
             }
-        }
-        else if (uX != 0 && uY != 0)
-        {
-            Debug.LogWarning("Can't handle both axes at the same time");
         }
 
         // If an action was made (merge/move)
@@ -421,10 +423,6 @@ public class TileManager : MonoBehaviour
 
             Tile tile = tileObjects[x, y];
             tile.Value = value;
-        }
-        else
-        {
-            Debug.LogWarning("[Tiles] No space available!");
         }
     }
 
