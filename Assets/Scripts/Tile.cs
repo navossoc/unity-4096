@@ -20,7 +20,7 @@ public class Tile : MonoBehaviour
         new Color32(237, 194, 46, 255),     // 4096
     };
 
-    private static readonly Color32[] TextColors = 
+    private static readonly Color32[] TextColors =
     {
         Color.clear,                        // 1 (none)
         new Color32(119, 110, 101, 255),    // 2
@@ -89,13 +89,13 @@ public class Tile : MonoBehaviour
 
     public static bool operator ==(Tile lhs, Tile rhs)
     {
-        // If both are null, or both are same instance, return true.
+        // If both are null, or both are same instance, return true
         if (object.ReferenceEquals(lhs, rhs))
         {
             return true;
         }
 
-        // If one is null, but not both, return false.
+        // If one is null, but not both, return false
         if (((object)lhs == null) || ((object)rhs == null))
         {
             return false;
@@ -112,7 +112,7 @@ public class Tile : MonoBehaviour
 
     public static bool operator ==(Tile tile, int number)
     {
-        // If is null, return false.
+        // If is null, return false
         if ((object)tile == null)
         {
             return false;

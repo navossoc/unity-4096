@@ -83,10 +83,10 @@ public class TileManager : MonoBehaviour
         // Allocate memory
         tileObjects = new Tile[TilesPerRow, TilesPerRow];
 
-        // For each row        
+        // For each row
         for (int i = 0; i < TilesPerRow; i++)
         {
-            // For each column            
+            // For each column
             for (int j = 0; j < TilesPerRow; j++)
             {
                 // Find tile

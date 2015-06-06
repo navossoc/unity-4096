@@ -2303,9 +2303,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 1726586045}
   - 114: {fileID: 1726586047}
+  - 114: {fileID: 1726586049}
   - 114: {fileID: 1726586048}
   - 114: {fileID: 1726586046}
-  - 114: {fileID: 1726586049}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
