@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Menu : MonoBehaviour
+public class MenuController : MonoBehaviour
 {
     public void Play()
     {
