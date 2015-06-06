@@ -20,11 +20,6 @@ public class GameController : MonoBehaviour
         Loser
     }
 
-    public void RestartGame()
-    {
-        Application.LoadLevel("Game");
-    }
-
     // Use this for initialization
     private void Start()
     {
@@ -45,6 +40,27 @@ public class GameController : MonoBehaviour
         // Subscribe to input events
         genericInput.OnKeyDown += tileManager.Move;
         touchInput.OnSwipe += tileManager.Move;
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            ReturnMainMenu();
+        }
+    }
+
+    private void RestartGame()
+    {
+        // TODO: confirm this action
+        Application.LoadLevel("Game");
+    }
+
+    private void ReturnMainMenu()
+    {
+        // TODO: confirm this action
+        Application.LoadLevel("Main");
     }
 
     private void TileManager_OnScore(Tile tile)

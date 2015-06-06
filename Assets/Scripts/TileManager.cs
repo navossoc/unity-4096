@@ -350,12 +350,6 @@ public class TileManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // TODO: move to GameController?
-        if (Input.GetButtonDown("Cancel"))
-        {
-            Application.Quit();
-        }
-
         // DEBUG: spawn blocks
         if (Input.GetKeyDown(KeyCode.Mouse2))
         {
