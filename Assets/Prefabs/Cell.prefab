@@ -11,7 +11,7 @@ GameObject:
   - 222: {fileID: 22223012}
   - 114: {fileID: 11436128}
   m_Layer: 8
-  m_Name: Background
+  m_Name: Cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
