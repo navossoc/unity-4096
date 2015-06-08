@@ -25,13 +25,30 @@ public class GameController : MonoBehaviour
     {
         // Inputs
         genericInput = GetComponent<GenericInput>();
+        if (genericInput == null)
+        {
+            Debug.LogError("[GenericInput] Failed to locate object!");
+        }
+
         touchInput = GetComponent<TouchInput>();
+        if (touchInput == null)
+        {
+            Debug.LogError("[TouchInput] Failed to locate object!");
+        }
 
         // Score Manager
         scoreManager = GameObject.FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("[ScoreManager] Failed to locate object!");
+        }
 
         // Tile Manager
         tileManager = GameObject.FindObjectOfType<TileManager>();
+        if (tileManager == null)
+        {
+            Debug.LogError("[TileManager] Failed to locate object!");
+        }
 
         // Called for every tile merged
         tileManager.OnScore += TileManager_OnScore;
