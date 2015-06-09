@@ -28,7 +28,6 @@ public class Tile : MonoBehaviour
         new Color32(249, 246, 242, 255),    // 8+
     };
 
-    private int exponent;
     private Image tileImage;
     private Text tileText;
 
@@ -43,7 +42,7 @@ public class Tile : MonoBehaviour
         get
         {
             int result = 1;
-            for (int i = 0; i < exponent; i++)
+            for (int i = 0; i < Exponent; i++)
             {
                 result *= 2;
             }
@@ -56,7 +55,7 @@ public class Tile : MonoBehaviour
     {
         get
         {
-            return exponent;
+            return Exponent;
         }
 
         set
@@ -77,11 +76,13 @@ public class Tile : MonoBehaviour
                 tileText.text = (1 << value).ToString();
             }
 
-            exponent = value;
+            Exponent = value;
 
             UpdateColor();
         }
     }
+
+    private int Exponent { get; set; }
 
     /*
      * Operators
@@ -169,7 +170,7 @@ public class Tile : MonoBehaviour
 
     public override string ToString()
     {
-        return string.Format("{0} = 2^{1}", name, exponent);
+        return string.Format("{0} = 2^{1}", name, Exponent);
     }
 
     // Use this for initialization
@@ -186,12 +187,12 @@ public class Tile : MonoBehaviour
     private void UpdateColor()
     {
         // Background
-        tileImage.color = ImageColors[exponent];
+        tileImage.color = ImageColors[Exponent];
 
         // Text color
-        if (exponent <= 2)
+        if (Exponent <= 2)
         {
-            tileText.color = TextColors[exponent];
+            tileText.color = TextColors[Exponent];
         }
         else
         {
