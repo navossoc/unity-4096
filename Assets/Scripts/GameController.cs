@@ -2,6 +2,10 @@
 
 public class GameController : MonoBehaviour
 {
+    /*
+     * Fields
+     */
+
     // Screens
     public GameObject WinScreen;
     public GameObject LoseScreen;
@@ -12,6 +16,10 @@ public class GameController : MonoBehaviour
 
     private ScoreManager scoreManager;
     private TileManager tileManager;
+
+    /*
+     * Enums
+     */
 
     public enum GameState
     {
@@ -43,6 +51,10 @@ public class GameController : MonoBehaviour
     {
         get { return tileManager ?? (tileManager = FindObjectOfType<TileManager>()); }
     }
+
+    /*
+     * Methods
+     */
 
     // Use this for initialization
     private void Start()

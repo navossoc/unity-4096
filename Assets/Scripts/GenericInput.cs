@@ -2,11 +2,27 @@
 
 public class GenericInput : MonoBehaviour
 {
+    /*
+     * Fields
+     */
+
     private Vector2 lastAxesValues = Vector2.zero;
+
+    /*
+     * Delegates
+     */
 
     public delegate void KeyDown(int x, int y);
 
+    /*
+     * Events
+     */
+
     public event KeyDown OnKeyDown;
+
+    /*
+     * Methods
+     */
 
     // Update is called once per frame
     private void Update()

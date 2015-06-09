@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    /*
+     * Fields
+     */
+
     private const string HighScoreKey = "HighScore";
 
     private int score = 0;
@@ -10,6 +14,10 @@ public class ScoreManager : MonoBehaviour
 
     private Text scoreText;
     private Text highScoreText;
+
+    /*
+     * Methods
+     */
 
     public void AddPoints(int points)
     {

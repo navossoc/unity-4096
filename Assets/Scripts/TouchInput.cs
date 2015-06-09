@@ -2,6 +2,10 @@
 
 public class TouchInput : MonoBehaviour
 {
+    /*
+     * Fields
+     */
+
     [Range(5, 100)]
     public float MinSwipeDist = 10f;
     [Range(0f, 1f)]
@@ -14,9 +18,21 @@ public class TouchInput : MonoBehaviour
     private float startTime;
     private Vector2 startPos;
 
+    /*
+     * Delegates
+     */
+
     public delegate void SwipeAction(int x, int y);
 
+    /*
+     * Events
+     */
+
     public event SwipeAction OnSwipe;
+
+    /*
+     * Methods
+     */
 
     // Update is called once per frame
     private void Update()

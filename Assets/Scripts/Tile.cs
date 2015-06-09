@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
+    /*
+     * Fields
+     */
+
     private static readonly Color32[] ImageColors =
     {
         Color.clear,                        // 1 (none)
@@ -95,7 +99,7 @@ public class Tile : MonoBehaviour
     private int Exponent { get; set; }
 
     /*
-     * Operators
+     * Methods - Operators
      */
 
     public static bool operator ==(Tile lhs, Tile rhs)
@@ -139,7 +143,7 @@ public class Tile : MonoBehaviour
     }
 
     /*
-     * Override
+     * Methods - Override
      */
 
     public override bool Equals(object obj)
@@ -182,6 +186,10 @@ public class Tile : MonoBehaviour
     {
         return string.Format("{0} = 2^{1}", name, Exponent);
     }
+
+    /*
+     * Methods
+     */
 
     // Use this for initialization
     private void Start()

@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
+    /*
+     * Fields
+     */
+
     // Configuration
     private const int TilesPerRow = 4;
     private const int StartTiles = 2;
@@ -10,15 +14,31 @@ public class TileManager : MonoBehaviour
     // Tile array reference
     private Tile[,] tileObjects;
 
+    /*
+     * Delegates
+     */
+
     public delegate void Score(Tile tile);
 
     public delegate void State(GameController.GameState state);
+
+    /*
+     * Events
+     */
 
     public event Score OnScore;
 
     public event State OnStateChange;
 
+    /*
+     * Properties
+     */
+
     public bool ValidAction { get; set; }
+
+    /*
+     * Methods
+     */
 
     public void Move(int x, int y)
     {
@@ -302,10 +322,6 @@ public class TileManager : MonoBehaviour
             }
         }
     }
-
-    /*
-     * Helpers
-     */
 
     private void MergeTile(Tile tileFrom, Tile tileTo)
     {

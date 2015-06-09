@@ -2,6 +2,10 @@
 
 public class MenuController : MonoBehaviour
 {
+    /*
+     * Methods
+     */
+
     public void Play()
     {
         Debug.Log("[Menu] Play");
