@@ -35,6 +35,16 @@ public class Tile : MonoBehaviour
      * Properties
      */
 
+    public Image TileImage
+    {
+        get { return tileImage ?? (tileImage = GetComponent<Image>()); }
+    }
+
+    public Text TileText
+    {
+        get { return tileText ?? (tileText = GetComponentInChildren<Text>()); }
+    }
+
     public bool Merged { get; set; }
 
     public int Score
@@ -69,11 +79,11 @@ public class Tile : MonoBehaviour
 
             if (value == 0)
             {
-                tileText.text = string.Empty;
+                TileText.text = string.Empty;
             }
             else
             {
-                tileText.text = (1 << value).ToString();
+                TileText.text = (1 << value).ToString();
             }
 
             Exponent = value;
@@ -176,8 +186,6 @@ public class Tile : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        tileImage = GetComponent<Image>();
-        tileText = GetComponentInChildren<Text>();
         Value = 0;
     }
 
@@ -187,16 +195,16 @@ public class Tile : MonoBehaviour
     private void UpdateColor()
     {
         // Background
-        tileImage.color = ImageColors[Exponent];
+        TileImage.color = ImageColors[Exponent];
 
         // Text color
         if (Exponent <= 2)
         {
-            tileText.color = TextColors[Exponent];
+            TileText.color = TextColors[Exponent];
         }
         else
         {
-            tileText.color = TextColors[3];
+            TileText.color = TextColors[3];
         }
     }
 }
