@@ -20,43 +20,40 @@ public class GameController : MonoBehaviour
         Loser
     }
 
+    /*
+     * Properties
+     */
+
+    public GenericInput GenericInput
+    {
+        get { return genericInput ?? (genericInput = GetComponent<GenericInput>()); }
+    }
+
+    public TouchInput TouchInput
+    {
+        get { return touchInput ?? (touchInput = GetComponent<TouchInput>()); }
+    }
+
+    public ScoreManager ScoreManager
+    {
+        get { return scoreManager ?? (scoreManager = GetComponent<ScoreManager>()); }
+    }
+
+    public TileManager TileManager
+    {
+        get { return tileManager ?? (tileManager = FindObjectOfType<TileManager>()); }
+    }
+
     // Use this for initialization
     private void Start()
     {
-        // Inputs
-        genericInput = GetComponent<GenericInput>();
-        if (genericInput == null)
-        {
-            Debug.LogError("[GenericInput] Failed to locate object!");
-        }
-
-        touchInput = GetComponent<TouchInput>();
-        if (touchInput == null)
-        {
-            Debug.LogError("[TouchInput] Failed to locate object!");
-        }
-
-        // Score Manager
-        scoreManager = GameObject.FindObjectOfType<ScoreManager>();
-        if (scoreManager == null)
-        {
-            Debug.LogError("[ScoreManager] Failed to locate object!");
-        }
-
-        // Tile Manager
-        tileManager = GameObject.FindObjectOfType<TileManager>();
-        if (tileManager == null)
-        {
-            Debug.LogError("[TileManager] Failed to locate object!");
-        }
-
         // Called for every tile merged
-        tileManager.OnScore += TileManager_OnScore;
-        tileManager.OnStateChange += TileManager_OnStateChange;
+        TileManager.OnScore += TileManager_OnScore;
+        TileManager.OnStateChange += TileManager_OnStateChange;
 
         // Subscribe to input events
-        genericInput.OnKeyDown += tileManager.Move;
-        touchInput.OnSwipe += tileManager.Move;
+        GenericInput.OnKeyDown += TileManager.Move;
+        TouchInput.OnSwipe += TileManager.Move;
     }
 
     // Update is called once per frame
@@ -83,7 +80,7 @@ public class GameController : MonoBehaviour
     private void TileManager_OnScore(Tile tile)
     {
         // Update score and high score
-        scoreManager.AddPoints(tile.Score);
+        ScoreManager.AddPoints(tile.Score);
     }
 
     private void TileManager_OnStateChange(GameState state)
@@ -100,8 +97,8 @@ public class GameController : MonoBehaviour
             }
 
             // Unsubscribe to input events
-            genericInput.OnKeyDown -= tileManager.Move;
-            touchInput.OnSwipe -= tileManager.Move;
+            GenericInput.OnKeyDown -= TileManager.Move;
+            TouchInput.OnSwipe -= TileManager.Move;
         }
     }
 }
