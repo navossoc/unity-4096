@@ -316,7 +316,7 @@ public class TileManager : MonoBehaviour
         ValidAction = true;
 
         // Tile 4096
-        if (tileTo.Value == 12)
+        if (tileTo == 12)
         {
             // Notify about game state change
             OnStateChange(GameController.GameState.Winner);
@@ -507,7 +507,7 @@ public class TileManager : MonoBehaviour
         {
             for (int j = 0; j < TilesPerRow; j++)
             {
-                if (tileObjects[i, j].Value == 0)
+                if (tileObjects[i, j] == 0)
                 {
                     cells.Add(new Vector2(i, j));
                 }
