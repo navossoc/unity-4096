@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
 
 public class TouchInput : MonoBehaviour
 {
@@ -7,10 +8,15 @@ public class TouchInput : MonoBehaviour
      */
 
     [Range(5, 100)]
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Can be tweaked on inspector")]
     public float MinSwipeDist = 10f;
+
     [Range(0f, 1f)]
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Can be tweaked on inspector")]
     public float MinSwipeTime = 0.05f;
+
     [Range(1f, 5f)]
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Can be tweaked on inspector")]
     public float MaxSwipeTime = 1f;
 
     private const int Deadzone = 5;

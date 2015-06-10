@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
@@ -7,7 +8,9 @@ public class GameController : MonoBehaviour
      */
 
     // Screens
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Need to be linked in inspector")]
     public GameObject WinScreen;
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Need to be linked in inspector")]
     public GameObject LoseScreen;
 
     // Input
