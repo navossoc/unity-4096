@@ -50,6 +50,12 @@ public class TileManager : MonoBehaviour
             return;
         }
 
+        // Stop all animations in progress
+        StopAllCoroutines();
+
+        // Update all tiles
+        UpdateTiles();
+
         // Reset action state
         ValidAction = false;
 
@@ -85,7 +91,6 @@ public class TileManager : MonoBehaviour
         // If an action was made (merge/move)
         if (ValidAction)
         {
-            ResetTiles();
             AddRandomTile();
         }
 
@@ -94,6 +99,23 @@ public class TileManager : MonoBehaviour
         {
             // Notify about game state change
             OnStateChange(GameController.GameState.Loser);
+        }
+    }
+
+    private void UpdateTiles()
+    {
+        // For each row
+        for (int i = 0; i < TilesPerRow; i++)
+        {
+            // Reset all tiles in this row
+            for (int j = 0; j < TilesPerRow; j++)
+            {
+                Tile tile = tileObjects[i, j];
+                tile.Merged = false;
+                tile.Refresh();
+                tile.transform.localPosition = Vector3.zero;
+                tile.transform.localScale = Vector3.one;
+            }
         }
     }
 
@@ -124,6 +146,8 @@ public class TileManager : MonoBehaviour
                 }
             }
         }
+
+        Random.seed = 0;
 
         // Add random tiles
         for (int i = 0; i < StartTiles; i++)
@@ -323,6 +347,24 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    // Tiles methods
+    private void AddRandomTile()
+    {
+        Vector2 cell;
+        if (RandomAvailableCell(out cell))
+        {
+            int value = Random.value < 0.9f ? 1 : 2;
+            int x = (int)cell.x;
+            int y = (int)cell.y;
+
+            Tile tile = tileObjects[x, y];
+            tile.Value = value;
+
+            // Play animation
+            StartCoroutine(tile.AppearAnimation());
+        }
+    }
+
     private void MergeTile(Tile tileFrom, Tile tileTo)
     {
         tileTo.Value = tileFrom.Value + 1;
@@ -340,6 +382,9 @@ public class TileManager : MonoBehaviour
 
         // Notify event
         OnScore(tileTo);
+
+        // Play animation
+        StartCoroutine(tileFrom.MergeAnimation(tileTo));
     }
 
     private void MoveTile(Tile tileFrom, Tile tileTo)
@@ -348,31 +393,14 @@ public class TileManager : MonoBehaviour
         tileFrom.Value = 0;
 
         ValidAction = true;
-    }
 
-    private void ResetTiles()
-    {
-        // For each row
-        for (int i = 0; i < TilesPerRow; i++)
-        {
-            // Reset all tiles in this row
-            for (int j = 0; j < TilesPerRow; j++)
-            {
-                tileObjects[i, j].Merged = false;
-            }
-        }
+        // Play animation
+        StartCoroutine(tileFrom.MoveAnimation(tileTo));
     }
 
     // Update is called once per frame
     private void Update()
     {
-        // DEBUG: spawn blocks
-        if (Input.GetKeyDown(KeyCode.Mouse2))
-        {
-            Debug.Log("Add random block");
-            AddRandomTile();
-        }
-
         // HACK: tests
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -395,6 +423,7 @@ public class TileManager : MonoBehaviour
             tileObjects[3, 1].Value = 0;
             tileObjects[3, 2].Value = 1;
             tileObjects[3, 3].Value = 0;
+            UpdateTiles();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -417,6 +446,7 @@ public class TileManager : MonoBehaviour
             tileObjects[0, 1].Value = 0;
             tileObjects[0, 2].Value = 0;
             tileObjects[0, 3].Value = 0;
+            UpdateTiles();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -439,6 +469,7 @@ public class TileManager : MonoBehaviour
             tileObjects[3, 1].Value = 0;
             tileObjects[3, 2].Value = 0;
             tileObjects[3, 3].Value = 1;
+            UpdateTiles();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -461,6 +492,7 @@ public class TileManager : MonoBehaviour
             tileObjects[3, 1].Value = 0;
             tileObjects[3, 2].Value = 0;
             tileObjects[3, 3].Value = 0;
+            UpdateTiles();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -483,21 +515,7 @@ public class TileManager : MonoBehaviour
             tileObjects[3, 1].Value = 5;
             tileObjects[3, 2].Value = 6;
             tileObjects[3, 3].Value = 7;
-        }
-    }
-
-    // Tiles methods
-    private void AddRandomTile()
-    {
-        Vector2 cell;
-        if (RandomAvailableCell(out cell))
-        {
-            int value = Random.value < 0.9f ? 1 : 2;
-            int x = (int)cell.x;
-            int y = (int)cell.y;
-
-            Tile tile = tileObjects[x, y];
-            tile.Value = value;
+            UpdateTiles();
         }
     }
 

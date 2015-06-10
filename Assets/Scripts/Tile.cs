@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
@@ -6,6 +7,12 @@ public class Tile : MonoBehaviour
     /*
      * Fields
      */
+
+    // animation
+    private const float AppearingTime = 0.2f;
+    private const float MergingTime = 0.05f;
+    private const float MovingTime = 0.1f;
+    private static readonly Vector3 MergingScale = new Vector3(1.2f, 1.2f, 1.2f);
 
     private static readonly Color32[] ImageColors =
     {
@@ -56,7 +63,7 @@ public class Tile : MonoBehaviour
         get
         {
             int result = 1;
-            for (int i = 0; i < Exponent; i++)
+            for (int i = 0; i < Value; i++)
             {
                 result *= 2;
             }
@@ -65,38 +72,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public int Value
-    {
-        get
-        {
-            return Exponent;
-        }
-
-        set
-        {
-            if (value < 0 || value > 12)
-            {
-                Debug.LogErrorFormat("[{0}] Number {1} out of range", name, value);
-            }
-
-            value = Mathf.Clamp(value, 0, 12);
-
-            if (value == 0)
-            {
-                TileText.text = string.Empty;
-            }
-            else
-            {
-                TileText.text = (1 << value).ToString();
-            }
-
-            Exponent = value;
-
-            UpdateColor();
-        }
-    }
-
-    private int Exponent { get; set; }
+    public int Value { get; set; }
 
     /*
      * Methods - Operators
@@ -184,35 +160,155 @@ public class Tile : MonoBehaviour
 
     public override string ToString()
     {
-        return string.Format("{0} = 2^{1}", name, Exponent);
+        return string.Format("{0} = 2^{1}", name, Value);
+    }
+
+    /*
+     * Animations
+     */
+
+    public IEnumerator AppearAnimation()
+    {
+        ////Debug.LogFormat("Appear: {0}", transform.parent.name);
+
+        // Wait the other tiles move first
+        yield return new WaitForSeconds(MovingTime);
+
+        // Update color/text
+        Refresh();
+
+        // Bring to front
+        transform.parent.SetAsLastSibling();
+
+        // Scale
+        for (float t = 0f; t < 1f; t += Time.deltaTime / AppearingTime)
+        {
+            transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, t);
+            yield return null;
+        }
+
+        // Make sure the scale is reached
+        transform.localScale = Vector3.one;
+    }
+
+    public IEnumerator MergeAnimation(Tile tileTo)
+    {
+        ////Debug.LogFormat("Merge: {0} => {1}", transform.parent.name, tileTo.transform.parent.name);
+
+        // Wait for tile move
+        IEnumerator it = MoveAnimation(tileTo);
+        while (it.MoveNext())
+        {
+            yield return it.Current;
+        }
+
+        // Bring to front
+        transform.parent.SetAsLastSibling();
+
+        // Scale to 120%
+        for (float t = 0f; t < 1f; t += Time.deltaTime / MergingTime)
+        {
+            tileTo.transform.localScale = Vector3.Lerp(Vector3.one, MergingScale, t);
+            yield return null;
+        }
+
+        // Scale to 100%
+        for (float t = 0f; t < 1f; t += Time.deltaTime / MergingTime)
+        {
+            tileTo.transform.localScale = Vector3.Lerp(MergingScale, Vector3.one, t);
+            yield return null;
+        }
+
+        // Make sure the scale is reached
+        tileTo.transform.localScale = Vector3.one;
+
+        // Reset position
+        transform.localPosition = Vector3.zero;
+    }
+
+    public IEnumerator MoveAnimation(Tile tileTo)
+    {
+        ////Debug.LogFormat("Move: {0} => {1}", transform.parent.name, tileTo.transform.parent.name);
+
+        // Distance between tiles
+        Vector3 deltaLocalTo = tileTo.transform.parent.localPosition - transform.parent.localPosition;
+
+        // Bring to front
+        transform.parent.SetAsLastSibling();
+
+        // Move
+        for (float t = 0f; t < 1f; t += Time.deltaTime / MovingTime)
+        {
+            transform.localPosition = Vector3.Lerp(Vector3.zero, deltaLocalTo, t);
+            yield return null;
+        }
+
+        // Make sure the position is reached
+        transform.localPosition = deltaLocalTo;
+
+        // Update color/text
+        tileTo.Refresh();
+
+        // Send to back
+        transform.parent.SetAsFirstSibling();
+
+        // Update color/text
+        Refresh();
+
+        // Reset position
+        transform.localPosition = Vector3.zero;
     }
 
     /*
      * Methods
      */
 
+    /// <summary>
+    /// Update Tile graphics
+    /// </summary>
+    public void Refresh()
+    {
+        UpdateColor();
+        UpdateText();
+    }
+
     // Use this for initialization
     private void Start()
     {
-        Value = 0;
+        Refresh();
     }
 
     /// <summary>
-    /// Change Tile color based on his value
+    /// Change Tile color based on his exponent value
     /// </summary>
     private void UpdateColor()
     {
         // Background
-        TileImage.color = ImageColors[Exponent];
+        TileImage.color = ImageColors[Value];
 
         // Text color
-        if (Exponent <= 2)
+        if (Value <= 2)
         {
-            TileText.color = TextColors[Exponent];
+            TileText.color = TextColors[Value];
         }
         else
         {
             TileText.color = TextColors[3];
+        }
+    }
+
+    /// <summary>
+    /// Change Tile text based on his exponent value
+    /// </summary>
+    private void UpdateText()
+    {
+        if (Value == 0)
+        {
+            TileText.text = string.Empty;
+        }
+        else
+        {
+            TileText.text = (1 << Value).ToString();
         }
     }
 }
