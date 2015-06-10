@@ -39,12 +39,20 @@ public class Tile : MonoBehaviour
         new Color32(249, 246, 242, 255),    // 8+
     };
 
+    private static int sortOrder = 1;
+
+    private Canvas tileCanvas;
     private Image tileImage;
     private Text tileText;
 
     /*
      * Properties
      */
+
+    public Canvas TileCanvas
+    {
+        get { return tileCanvas ?? (tileCanvas = GetComponent<Canvas>()); }
+    }
 
     public Image TileImage
     {
@@ -178,7 +186,7 @@ public class Tile : MonoBehaviour
         Refresh();
 
         // Bring to front
-        transform.parent.SetAsLastSibling();
+        BringToFront();
 
         // Scale
         for (float t = 0f; t < 1f; t += Time.deltaTime / AppearingTime)
@@ -203,7 +211,7 @@ public class Tile : MonoBehaviour
         }
 
         // Bring to front
-        transform.parent.SetAsLastSibling();
+        BringToFront();
 
         // Scale to 120%
         for (float t = 0f; t < 1f; t += Time.deltaTime / MergingTime)
@@ -234,7 +242,7 @@ public class Tile : MonoBehaviour
         Vector3 deltaLocalTo = tileTo.transform.parent.localPosition - transform.parent.localPosition;
 
         // Bring to front
-        transform.parent.SetAsLastSibling();
+        BringToFront();
 
         // Move
         for (float t = 0f; t < 1f; t += Time.deltaTime / MovingTime)
@@ -248,9 +256,6 @@ public class Tile : MonoBehaviour
 
         // Update color/text
         tileTo.Refresh();
-
-        // Send to back
-        transform.parent.SetAsFirstSibling();
 
         // Update color/text
         Refresh();
@@ -270,6 +275,7 @@ public class Tile : MonoBehaviour
     {
         UpdateColor();
         UpdateText();
+        SendToBack();
     }
 
     // Use this for initialization
@@ -310,5 +316,21 @@ public class Tile : MonoBehaviour
         {
             TileText.text = (1 << Value).ToString();
         }
+    }
+
+    /// <summary>
+    /// Bring Tile to front layer
+    /// </summary>
+    private void BringToFront()
+    {
+        TileCanvas.sortingOrder = ++sortOrder;
+    }
+
+    /// <summary>
+    /// Send Tile to back layer
+    /// </summary>
+    private void SendToBack()
+    {
+        TileCanvas.sortingOrder = 1;
     }
 }
