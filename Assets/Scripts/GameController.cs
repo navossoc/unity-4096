@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Need to be linked in inspector")]
     public GameObject LoseScreen;
 
+    private const float OverlayTime = 0.5f;
+
     // Input
     private GenericInput genericInput;
     private TouchInput touchInput;
@@ -104,16 +106,32 @@ public class GameController : MonoBehaviour
         {
             if (state == GameState.Winner)
             {
-                WinScreen.SetActive(true);
+                if (!WinScreen.activeInHierarchy)
+                {
+                    Invoke("WinAnimation", OverlayTime);
+                }
             }
             else if (state == GameState.Loser)
             {
-                LoseScreen.SetActive(true);
+                if (!LoseScreen.activeInHierarchy)
+                {
+                    Invoke("LoseAnimation", OverlayTime);
+                }
             }
 
             // Unsubscribe to input events
             GenericInput.OnKeyDown -= TileManager.Move;
             TouchInput.OnSwipe -= TileManager.Move;
         }
+    }
+
+    private void WinAnimation()
+    {
+        WinScreen.SetActive(true);
+    }
+
+    private void LoseAnimation()
+    {
+        LoseScreen.SetActive(true);
     }
 }
