@@ -14,6 +14,9 @@ public class TileManager : MonoBehaviour
     // Tile array reference
     private Tile[,] tileObjects;
 
+    // Action sound
+    private AudioSource audioSource;
+
     /*
      * Delegates
      */
@@ -92,6 +95,9 @@ public class TileManager : MonoBehaviour
         if (ValidAction)
         {
             AddRandomTile();
+
+            // Play sound
+            audioSource.Play();
         }
 
         // Check if there is no more actions
@@ -122,6 +128,9 @@ public class TileManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        // Action sound
+        audioSource = GetComponent<AudioSource>();
+
         // Allocate memory
         tileObjects = new Tile[TilesPerRow, TilesPerRow];
 
@@ -373,18 +382,19 @@ public class TileManager : MonoBehaviour
 
         ValidAction = true;
 
-        // Tile 4096
-        if (tileTo == 12)
-        {
-            // Notify about game state change
-            OnStateChange(GameController.GameState.Winner);
-        }
-
         // Notify event
         OnScore(tileTo);
 
         // Play animation
         StartCoroutine(tileFrom.MergeAnimation(tileTo));
+
+        // Tile 4096
+        if (tileTo == 12)
+        {
+            // TODO: prevent spawn on 4096 tile
+            // Notify about game state change
+            OnStateChange(GameController.GameState.Winner);
+        }
     }
 
     private void MoveTile(Tile tileFrom, Tile tileTo)
