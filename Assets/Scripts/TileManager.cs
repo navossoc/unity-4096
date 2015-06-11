@@ -11,6 +11,8 @@ public class TileManager : MonoBehaviour
     private const int TilesPerRow = 4;
     private const int StartTiles = 2;
 
+    private Preferences pref;
+
     // Tile array reference
     private Tile[,] tileObjects;
 
@@ -96,8 +98,11 @@ public class TileManager : MonoBehaviour
         {
             AddRandomTile();
 
-            // Play sound
-            audioSource.Play();
+            if (pref.Sound == Preferences.SoundEffect.On)
+            {
+                // Play sound
+                audioSource.Play();
+            }
         }
 
         // Check if there is no more actions
@@ -128,6 +133,9 @@ public class TileManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        // Preferences
+        pref = GetComponent<Preferences>();
+
         // Action sound
         audioSource = GetComponent<AudioSource>();
 
@@ -369,8 +377,16 @@ public class TileManager : MonoBehaviour
             Tile tile = tileObjects[x, y];
             tile.Value = value;
 
-            // Play animation
-            StartCoroutine(tile.AppearAnimation());
+            // Disabled animations
+            if (pref.Animation == Preferences.AnimationEffect.None)
+            {
+                tile.Refresh();
+            }
+            else
+            {
+                // Play animation
+                StartCoroutine(tile.AppearAnimation());
+            }
         }
     }
 
@@ -385,8 +401,17 @@ public class TileManager : MonoBehaviour
         // Notify event
         OnScore(tileTo);
 
-        // Play animation
-        StartCoroutine(tileFrom.MergeAnimation(tileTo));
+        // Simple animations
+        if (pref.Animation < Preferences.AnimationEffect.Complete)
+        {
+            tileFrom.Refresh();
+            tileTo.Refresh();
+        }
+        else
+        {
+            // Play animation
+            StartCoroutine(tileFrom.MergeAnimation(tileTo));
+        }
 
         // Tile 4096
         if (tileTo == 12)
@@ -404,8 +429,17 @@ public class TileManager : MonoBehaviour
 
         ValidAction = true;
 
-        // Play animation
-        StartCoroutine(tileFrom.MoveAnimation(tileTo));
+        // Simple animations
+        if (pref.Animation < Preferences.AnimationEffect.Complete)
+        {
+            tileTo.Refresh();
+            tileFrom.Refresh();
+        }
+        else
+        {
+            // Play animation
+            StartCoroutine(tileFrom.MoveAnimation(tileTo));
+        }
     }
 
     // Update is called once per frame

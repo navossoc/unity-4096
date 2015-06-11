@@ -267,6 +267,7 @@ GameObject:
   - 114: {fileID: 161722592}
   - 114: {fileID: 161722588}
   - 114: {fileID: 161722591}
+  - 114: {fileID: 161722595}
   m_Layer: 8
   m_Name: Tiles
   m_TagString: Untagged
@@ -454,6 +455,17 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!114 &161722595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 161722587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81aed927bac2e5e42afff56c982d62c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &168472986
 Prefab:
   m_ObjectHideFlags: 0

@@ -17,23 +17,6 @@ public class OptionController : MonoBehaviour
     private Text animationText, soundText;
 
     /*
-     * Enums
-     */
-
-    public enum AnimationEffect
-    {
-        None,
-        Simple,
-        Complete
-    }
-
-    public enum SoundEffect
-    {
-        Off,
-        On
-    }
-
-    /*
      * Methods
      */
 
@@ -58,7 +41,7 @@ public class OptionController : MonoBehaviour
     /// </summary>
     public void UpdateAnimationSlider()
     {
-        AnimationEffect option = (AnimationEffect)animationSlider.value;
+        Preferences.AnimationEffect option = (Preferences.AnimationEffect)animationSlider.value;
         animationText.text = option.ToString();
     }
 
@@ -67,7 +50,7 @@ public class OptionController : MonoBehaviour
     /// </summary>
     public void UpdateSoundSlider()
     {
-        SoundEffect option = (SoundEffect)soundSlider.value;
+        Preferences.SoundEffect option = (Preferences.SoundEffect)soundSlider.value;
         soundText.text = option.ToString();
     }
 
