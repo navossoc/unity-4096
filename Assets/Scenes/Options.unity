@@ -196,7 +196,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 442325175}
-        m_MethodName: ReturnToMain
+        m_MethodName: ApplyButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1376,7 +1376,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 442325175}
-        m_MethodName: ReturnToMain
+        m_MethodName: CancelButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
