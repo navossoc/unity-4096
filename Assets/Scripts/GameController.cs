@@ -9,9 +9,7 @@ public class GameController : MonoBehaviour
 
     // Screens
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Need to be linked in inspector")]
-    public GameObject WinScreen;
-    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Need to be linked in inspector")]
-    public GameObject LoseScreen;
+    public GameObject WinScreen, LoseScreen, QuitScreen;
 
     private const float OverlayTime = 0.5f;
 
@@ -61,6 +59,22 @@ public class GameController : MonoBehaviour
      * Methods
      */
 
+    public void RestartGame()
+    {
+        // TODO: confirm this action
+        Application.LoadLevel("Game");
+    }
+
+    public void ReturnMainMenu()
+    {
+        Application.LoadLevel("Main");
+    }
+
+    public void CancelQuitScreen()
+    {
+        QuitScreen.SetActive(false);
+    }
+
     // Use this for initialization
     private void Start()
     {
@@ -78,20 +92,8 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
-            ReturnMainMenu();
+            QuitAnimation();
         }
-    }
-
-    private void RestartGame()
-    {
-        // TODO: confirm this action
-        Application.LoadLevel("Game");
-    }
-
-    private void ReturnMainMenu()
-    {
-        // TODO: confirm this action
-        Application.LoadLevel("Main");
     }
 
     private void TileManager_OnScore(Tile tile)
@@ -106,17 +108,11 @@ public class GameController : MonoBehaviour
         {
             if (state == GameState.Winner)
             {
-                if (!WinScreen.activeInHierarchy)
-                {
-                    Invoke("WinAnimation", OverlayTime);
-                }
+                Invoke("WinAnimation", OverlayTime);
             }
             else if (state == GameState.Loser)
             {
-                if (!LoseScreen.activeInHierarchy)
-                {
-                    Invoke("LoseAnimation", OverlayTime);
-                }
+                Invoke("LoseAnimation", OverlayTime);
             }
 
             // Unsubscribe to input events
@@ -127,11 +123,31 @@ public class GameController : MonoBehaviour
 
     private void WinAnimation()
     {
+        if (WinScreen.activeInHierarchy)
+        {
+            return;
+        }
+
         WinScreen.SetActive(true);
     }
 
     private void LoseAnimation()
     {
+        if (LoseScreen.activeInHierarchy)
+        {
+            return;
+        }
+
         LoseScreen.SetActive(true);
+    }
+
+    private void QuitAnimation()
+    {
+        if (QuitScreen.activeInHierarchy)
+        {
+            return;
+        }
+
+        QuitScreen.SetActive(true);
     }
 }
