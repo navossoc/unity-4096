@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
 
     public enum GameState
     {
+        Undefined,
         Playing,
         Winner,
         Loser
@@ -34,6 +35,8 @@ public class GameController : MonoBehaviour
     /*
      * Properties
      */
+
+    public GameState CurrentState { get; private set; }
 
     public GenericInput GenericInput
     {
@@ -61,7 +64,6 @@ public class GameController : MonoBehaviour
 
     public void RestartGame()
     {
-        // TODO: confirm this action
         Application.LoadLevel("Game");
     }
 
@@ -104,6 +106,15 @@ public class GameController : MonoBehaviour
 
     private void TileManager_OnStateChange(GameState state)
     {
+        // Prevent multiple calls for the same state
+        if (CurrentState == state)
+        {
+            return;
+        }
+
+        // Update game state
+        CurrentState = state;
+
         if (state != GameState.Playing)
         {
             if (state == GameState.Winner)
@@ -123,31 +134,16 @@ public class GameController : MonoBehaviour
 
     private void WinAnimation()
     {
-        if (WinScreen.activeInHierarchy)
-        {
-            return;
-        }
-
         WinScreen.SetActive(true);
     }
 
     private void LoseAnimation()
     {
-        if (LoseScreen.activeInHierarchy)
-        {
-            return;
-        }
-
         LoseScreen.SetActive(true);
     }
 
     private void QuitAnimation()
     {
-        if (QuitScreen.activeInHierarchy)
-        {
-            return;
-        }
-
         QuitScreen.SetActive(true);
     }
 }
