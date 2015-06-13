@@ -39,8 +39,6 @@ public class Tile : MonoBehaviour
         new Color32(249, 246, 242, 255),    // 8+
     };
 
-    private static int sortOrder = 1;
-
     private Canvas tileCanvas;
     private Image tileImage;
     private Text tileText;
@@ -323,7 +321,7 @@ public class Tile : MonoBehaviour
     /// </summary>
     private void BringToFront()
     {
-        TileCanvas.sortingOrder = ++sortOrder;
+        TileCanvas.sortingOrder = ++TileManager.SortOrder;
     }
 
     /// <summary>

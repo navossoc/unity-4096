@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour
@@ -6,6 +7,10 @@ public class TileManager : MonoBehaviour
     /*
      * Fields
      */
+
+    // Tile sorting order
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Variable used by Tile Class")]
+    public static int SortOrder = 1;
 
     // Configuration
     private const int TilesPerRow = 4;
@@ -131,6 +136,7 @@ public class TileManager : MonoBehaviour
                 tile.Refresh();
                 tile.transform.localPosition = Vector3.zero;
                 tile.transform.localScale = Vector3.one;
+                SortOrder = 1;
             }
         }
     }
