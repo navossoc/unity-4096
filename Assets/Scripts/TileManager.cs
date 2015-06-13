@@ -178,8 +178,6 @@ public class TileManager : MonoBehaviour
             }
         }
 
-        Random.seed = 0;
-
         // Add random tiles
         for (int i = 0; i < StartTiles; i++)
         {
@@ -452,127 +450,6 @@ public class TileManager : MonoBehaviour
         {
             // Play animation
             StartCoroutine(tileFrom.MoveAnimation(tileTo));
-        }
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        // HACK: tests
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            tileObjects[0, 0].Value = 1;
-            tileObjects[0, 1].Value = 1;
-            tileObjects[0, 2].Value = 1;
-            tileObjects[0, 3].Value = 1;
-
-            tileObjects[1, 0].Value = 1;
-            tileObjects[1, 1].Value = 1;
-            tileObjects[1, 2].Value = 2;
-            tileObjects[1, 3].Value = 3;
-
-            tileObjects[2, 0].Value = 3;
-            tileObjects[2, 1].Value = 2;
-            tileObjects[2, 2].Value = 1;
-            tileObjects[2, 3].Value = 1;
-
-            tileObjects[3, 0].Value = 1;
-            tileObjects[3, 1].Value = 0;
-            tileObjects[3, 2].Value = 1;
-            tileObjects[3, 3].Value = 0;
-            UpdateTiles();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            tileObjects[3, 0].Value = 0;
-            tileObjects[3, 1].Value = 0;
-            tileObjects[3, 2].Value = 0;
-            tileObjects[3, 3].Value = 1;
-
-            tileObjects[2, 0].Value = 0;
-            tileObjects[2, 1].Value = 0;
-            tileObjects[2, 2].Value = 1;
-            tileObjects[2, 3].Value = 0;
-
-            tileObjects[1, 0].Value = 0;
-            tileObjects[1, 1].Value = 1;
-            tileObjects[1, 2].Value = 0;
-            tileObjects[1, 3].Value = 0;
-
-            tileObjects[0, 0].Value = 1;
-            tileObjects[0, 1].Value = 0;
-            tileObjects[0, 2].Value = 0;
-            tileObjects[0, 3].Value = 0;
-            UpdateTiles();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            tileObjects[0, 0].Value = 1;
-            tileObjects[0, 1].Value = 1;
-            tileObjects[0, 2].Value = 0;
-            tileObjects[0, 3].Value = 0;
-
-            tileObjects[1, 0].Value = 0;
-            tileObjects[1, 1].Value = 0;
-            tileObjects[1, 2].Value = 1;
-            tileObjects[1, 3].Value = 1;
-
-            tileObjects[2, 0].Value = 0;
-            tileObjects[2, 1].Value = 1;
-            tileObjects[2, 2].Value = 0;
-            tileObjects[2, 3].Value = 1;
-
-            tileObjects[3, 0].Value = 1;
-            tileObjects[3, 1].Value = 0;
-            tileObjects[3, 2].Value = 0;
-            tileObjects[3, 3].Value = 1;
-            UpdateTiles();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            tileObjects[0, 0].Value = 11;
-            tileObjects[0, 1].Value = 11;
-            tileObjects[0, 2].Value = 11;
-            tileObjects[0, 3].Value = 11;
-
-            tileObjects[1, 0].Value = 0;
-            tileObjects[1, 1].Value = 0;
-            tileObjects[1, 2].Value = 0;
-            tileObjects[1, 3].Value = 0;
-
-            tileObjects[2, 0].Value = 0;
-            tileObjects[2, 1].Value = 0;
-            tileObjects[2, 2].Value = 0;
-            tileObjects[2, 3].Value = 0;
-
-            tileObjects[3, 0].Value = 0;
-            tileObjects[3, 1].Value = 0;
-            tileObjects[3, 2].Value = 0;
-            tileObjects[3, 3].Value = 0;
-            UpdateTiles();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            tileObjects[0, 0].Value = 2;
-            tileObjects[0, 1].Value = 3;
-            tileObjects[0, 2].Value = 4;
-            tileObjects[0, 3].Value = 0;
-
-            tileObjects[1, 0].Value = 2;
-            tileObjects[1, 1].Value = 3;
-            tileObjects[1, 2].Value = 4;
-            tileObjects[1, 3].Value = 5;
-
-            tileObjects[2, 0].Value = 3;
-            tileObjects[2, 1].Value = 4;
-            tileObjects[2, 2].Value = 5;
-            tileObjects[2, 3].Value = 6;
-
-            tileObjects[3, 0].Value = 4;
-            tileObjects[3, 1].Value = 5;
-            tileObjects[3, 2].Value = 6;
-            tileObjects[3, 3].Value = 7;
-            UpdateTiles();
         }
     }
 
