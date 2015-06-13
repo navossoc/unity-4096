@@ -11,6 +11,7 @@ public class TileManager : MonoBehaviour
     private const int TilesPerRow = 4;
     private const int StartTiles = 2;
 
+    private GameController controller;
     private Preferences pref;
 
     // Tile array reference
@@ -96,7 +97,11 @@ public class TileManager : MonoBehaviour
         // If an action was made (merge/move)
         if (ValidAction)
         {
-            AddRandomTile();
+            // If the game is not won
+            if (controller.CurrentState != GameController.GameState.Winner)
+            {
+                AddRandomTile();
+            }
 
             if (pref.Sound == Preferences.SoundEffect.On)
             {
@@ -133,6 +138,9 @@ public class TileManager : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        // Game Controller
+        controller = GameObject.FindObjectOfType<GameController>();
+
         // Preferences
         pref = GetComponent<Preferences>();
 
@@ -416,7 +424,6 @@ public class TileManager : MonoBehaviour
         // Tile 4096
         if (tileTo == 12)
         {
-            // TODO: prevent spawn on 4096 tile
             // Notify about game state change
             OnStateChange(GameController.GameState.Winner);
         }
