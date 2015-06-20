@@ -61,6 +61,15 @@ public class TileManager : MonoBehaviour
             return;
         }
 
+        int uX = Mathf.Abs(x);
+        int uY = Mathf.Abs(y);
+
+        // Same "weight" on both axis
+        if (uX == uY)
+        {
+            return;
+        }
+
         // Stop all animations in progress
         StopAllCoroutines();
 
@@ -69,9 +78,6 @@ public class TileManager : MonoBehaviour
 
         // Reset action state
         ValidAction = false;
-
-        int uX = Mathf.Abs(x);
-        int uY = Mathf.Abs(y);
 
         // Handle axes behavior
         if (uX > uY)
