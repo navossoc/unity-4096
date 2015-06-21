@@ -9,11 +9,16 @@ public class ScoreManager : MonoBehaviour
 
     private const string HighScoreKey = "HighScore";
 
-    private int score = 0;
-    private int highScore = 0;
-
     private Text scoreText;
     private Text highScoreText;
+
+    /*
+     * Properties
+     */
+
+    public int Score { get; private set; }
+
+    public int HighScore { get; private set; }
 
     /*
      * Methods
@@ -21,15 +26,15 @@ public class ScoreManager : MonoBehaviour
 
     public void AddPoints(int points)
     {
-        score += points;
-        scoreText.text = score.ToString();
-        ////Debug.Log("Score: " + score);
+        Score += points;
+        scoreText.text = Score.ToString();
+        ////Debug.Log("Score: " + Score);
 
         // If the current score is higher than the high score
-        if (score > highScore)
+        if (Score > HighScore)
         {
             highScoreText.text = scoreText.text;
-            WriteHighScore(score);
+            WriteHighScore(Score);
         }
     }
 
@@ -46,13 +51,13 @@ public class ScoreManager : MonoBehaviour
 
     private string ReadHighScore()
     {
-        highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
-        return highScore.ToString();
+        HighScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+        return HighScore.ToString();
     }
 
     private void WriteHighScore(int score)
     {
-        highScore = score;
+        HighScore = score;
         PlayerPrefs.SetInt(HighScoreKey, score);
     }
 }
