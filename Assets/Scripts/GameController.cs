@@ -144,6 +144,14 @@ public class GameController : MonoBehaviour
 
     private void QuitAnimation()
     {
-        QuitScreen.SetActive(true);
+        // Checks if there is no other screen active
+        if (!WinScreen.activeInHierarchy && !LoseScreen.activeInHierarchy)
+        {
+            QuitScreen.SetActive(true);
+        }
+        else
+        {
+            ReturnMainMenu();
+        }
     }
 }
