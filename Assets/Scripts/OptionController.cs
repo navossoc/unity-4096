@@ -98,6 +98,7 @@ public class OptionController : MonoBehaviour
         // Save settings on player preferences
         PlayerPrefs.SetInt(AnimationEffectKey, animation);
         PlayerPrefs.SetInt(SoundEffectKey, sound);
+        PlayerPrefs.Save();
 
         // Go back to main menu
         ReturnToMain();
