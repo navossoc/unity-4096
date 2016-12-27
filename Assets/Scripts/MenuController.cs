@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
@@ -9,13 +10,13 @@ public class MenuController : MonoBehaviour
     public void Play()
     {
         Debug.Log("[Menu] Play");
-        Application.LoadLevel("Game");
+        SceneManager.LoadScene("Game");
     }
 
     public void Options()
     {
         Debug.Log("[Menu] Options");
-        Application.LoadLevel("Options");
+        SceneManager.LoadScene("Options");
     }
 
     public void Quit()

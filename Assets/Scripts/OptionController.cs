@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OptionController : MonoBehaviour
@@ -109,6 +110,6 @@ public class OptionController : MonoBehaviour
     /// </summary>
     private void ReturnToMain()
     {
-        Application.LoadLevel("Main");
+        SceneManager.LoadScene("Main");
     }
 }

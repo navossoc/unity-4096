@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -64,12 +65,12 @@ public class GameController : MonoBehaviour
 
     public void RestartGame()
     {
-        Application.LoadLevel("Game");
+        SceneManager.LoadScene("Game");
     }
 
     public void ReturnMainMenu()
     {
-        Application.LoadLevel("Main");
+        SceneManager.LoadScene("Main");
     }
 
     public void CancelQuitScreen()
