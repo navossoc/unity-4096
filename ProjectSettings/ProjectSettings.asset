@@ -194,7 +194,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Projects/4096/Release/4096.keystore
+  AndroidKeystoreName: D:/Projects/4096/Release/4096.keystore
   AndroidKeyaliasName: me
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
